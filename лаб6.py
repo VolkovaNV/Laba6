@@ -56,13 +56,13 @@ def generate_keystream(key: bytes, length: int) -> bytes:
 
 # Мейера-Матиса хэш-функция так называется 1 формула. Не знала как её правильно в коментах написать
 def meyer_mathias_hash(data: bytes, key: bytes) -> bytes:
-    hash_value = b'\x00' * 32  # начальное значение
+    H_i = b'\x00' * 32  # начальное значение
     padded_data = pad(data)
     for i in range(0, len(padded_data), 32):
-        block = padded_data[i:i+32]
-        hash_value = gostZah_block(hash_value, key)
-        hash_value = bytes(a ^ b for a, b in zip(hash_value, block))
-    return hash_value[:32]
+        M_i = padded_data[i:i+32]
+        H_i = gostZah_block(H_i, key)
+        H_i = bytes(a ^ b for a, b in zip(H_i, M_i))
+    return H_i[:32]
 
 # конец тельца гост шифра 
 
